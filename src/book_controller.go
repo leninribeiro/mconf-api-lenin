@@ -30,13 +30,15 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key := strings.ReplaceAll(keys[0], " ", "+")
+	query := strings.ReplaceAll(keys[0], " ", "+")
 
-	queryURL := "http://openlibrary.org/search.json?q=" + key
+	queryURL := "http://openlibrary.org/search.json?q="
 
-	response, err := http.Get(queryURL)
+	response, err := http.Get(queryURL + query)
 
 	var booksResponse Response
+
+	log.Println("Status:", response.StatusCode, "/GET "+query)
 
 	if err != nil {
 		fmt.Printf("the HTTP request failed with error %s\n", err)
